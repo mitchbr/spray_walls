@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "495626377974",
+    "project_id": "spraywalls-dd36f",
+    "storage_bucket": "spraywalls-dd36f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:495626377974:android:33d93c23ff9830fe016ad7",
+        "android_client_info": {
+          "package_name": "edu.oregonstate.brownmit.spray_walls"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "495626377974-1g9nrva5vafmv4sk7n18n86lj9v4rsuc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABi1JRDZJJnYGuWqc7nys15LNwsGZ9FXA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "495626377974-1g9nrva5vafmv4sk7n18n86lj9v4rsuc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
