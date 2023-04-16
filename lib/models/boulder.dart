@@ -10,19 +10,24 @@ class Boulder {
   late num grade;
   late String location;
   late bool private;
+  late int updatedAt;
+  late int createdAt;
 
-  Boulder(
-      {required this.id,
-      required this.name,
-      required this.holds,
-      required this.stars,
-      required this.ratingsCount,
-      required this.sendCount,
-      required this.description,
-      required this.user,
-      required this.grade,
-      required this.location,
-      required this.private});
+  Boulder({
+    required this.id,
+    required this.name,
+    required this.holds,
+    required this.stars,
+    required this.ratingsCount,
+    required this.sendCount,
+    required this.description,
+    required this.user,
+    required this.grade,
+    required this.location,
+    required this.private,
+    required this.updatedAt,
+    required this.createdAt,
+  });
 
   Boulder.fromSnapshot(document)
       : id = document["id"],
@@ -35,5 +40,7 @@ class Boulder {
         user = document["user"],
         grade = document["grade"],
         location = document["location"],
-        private = document["private"];
+        private = document["private"],
+        createdAt = document["createdAt"],
+        updatedAt = document["updatedAt"];
 }

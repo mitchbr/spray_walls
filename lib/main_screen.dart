@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:spray_walls/components/boulders_stream.dart';
 import 'package:spray_walls/custom_theme.dart';
 
-import 'package:spray_walls/pages/boulders_list.dart';
 import 'package:spray_walls/pages/login_page.dart';
 import 'package:spray_walls/services/user_services.dart';
 
@@ -26,7 +26,7 @@ class _SprayWallsState extends State<SprayWalls> {
           if (!snapshot.data) {
             return LoginPage(callback: callback);
           } else {
-            return const BouldersList();
+            return const BouldersStream();
           }
         } else if (snapshot.hasError) {
           return bodyWidget(loadingError());
@@ -39,7 +39,7 @@ class _SprayWallsState extends State<SprayWalls> {
 
   Widget bodyWidget(Widget child) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Groceries")),
+      appBar: AppBar(title: const Text("Spray Walls")),
       body: child,
     );
   }

@@ -1,104 +1,31 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import 'package:spray_walls/custom_theme.dart';
 import 'package:spray_walls/models/boulder.dart';
-import 'package:spray_walls/services/boulder_services.dart';
-import 'package:spray_walls/services/user_services.dart';
+import 'package:spray_walls/pages/boulders_details.dart';
 
 class BouldersList extends StatefulWidget {
-  const BouldersList({super.key});
+  final List listData;
+  const BouldersList({super.key, required this.listData});
 
   @override
   State<BouldersList> createState() => _BouldersListState();
 }
 
 class _BouldersListState extends State<BouldersList> {
-  final theme = CustomTheme();
-  final userServices = UserServices();
-  final boulderServices = BoulderServices();
-
-  List listData = [false];
-  final Stream<QuerySnapshot> _bouldersStream = FirebaseFirestore.instance.collection('boulders').snapshots();
-  String username = '';
-
-  @override
-  void initState() {
-    userServices.getUsername().then((value) {
-      setState(() {
-        username = value;
-      });
-    });
-
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return bodyWidget();
-  }
-
-  Widget bodyWidget() {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Spray Walls")),
-      body: listThingy(),
-    );
-  }
-
-  Widget listThingy() {
-    return StreamBuilder<QuerySnapshot>(
-      stream: _bouldersStream,
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return errorIndicator(context);
-        }
-
-        if (snapshot.connectionState == ConnectionState.waiting || username == 'initial_username') {
-          return circularIndicator(context);
-        }
-
-        listData = boulderServices.buildListFromSnapshot(snapshot);
-
-        if (listData.isEmpty) {
-          return emptyWidget(context);
-        }
-
-        return entriesList(context);
-      },
-    );
-  }
-
-  Widget emptyWidget(BuildContext context) {
-    return const Center(
-        child: Icon(
-      Icons.book,
-      size: 100,
-    ));
-  }
-
-  Widget circularIndicator(BuildContext context) {
-    return Center(
-        child: CircularProgressIndicator(
-      color: theme.accentHighlightColor,
-    ));
-  }
-
-  Widget errorIndicator(BuildContext context) {
-    return const Center(child: Text("Error loading data"));
-  }
-
-  Widget entriesList(BuildContext context) {
     return ListView.builder(
       shrinkWrap: false,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: listData.length,
+      itemCount: widget.listData.length,
       itemBuilder: (context, index) {
-        return boulderTile(listData[index]);
+        return boulderTile(index);
       },
     );
   }
 
-  Widget boulderTile(Boulder item) {
+  Widget boulderTile(int index) {
+    var item = widget.listData[index];
     return ListTile(
       title: Text(item.name),
       subtitle: Row(
@@ -110,7 +37,7 @@ class _BouldersListState extends State<BouldersList> {
           Text("V${item.grade}"),
         ],
       ),
-      onTap: () => {},
+      onTap: () => pushBoulderDetails(context, index),
     );
   }
 
@@ -124,5 +51,14 @@ class _BouldersListState extends State<BouldersList> {
         );
       }),
     );
+  }
+
+  void pushBoulderDetails(BuildContext context, index) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BouldersDetails(listData: widget.listData, index: index),
+      ),
+    ).then((data) => setState(() => {}));
   }
 }
