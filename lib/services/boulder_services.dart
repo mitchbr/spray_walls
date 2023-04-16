@@ -14,26 +14,18 @@ class BoulderServices {
     }).toList();
   }
 
-  void addBoulder() async {
-    // TODO: Add boulder as input parameter
-    final boulder = Boulder(
-      id: "tempid",
-      user: "tempuser",
-      name: "name",
-      holds: [],
-      stars: 0,
-      ratingsCount: 0,
-      sendCount: 0,
-      description: "A boulder",
-      grade: 1,
-      location: "SplinterDome",
-      private: true,
-      updatedAt: DateTime.now().millisecondsSinceEpoch,
-      createdAt: DateTime.now().millisecondsSinceEpoch,
-    );
-
-    boulder.user = await userServices.getUsername();
+  Future<void> addBoulder(Boulder boulder) async {
     final bouldersCollection = _fireStore.collection('boulders');
     bouldersCollection.add(boulder.toJson());
+  }
+
+  Future<void> updateBoulder(Boulder boulder) async {
+    final bouldersCollection = _fireStore.collection('boulders');
+    bouldersCollection.doc(boulder.id).update(boulder.toJson());
+  }
+
+  Future<void> deleteBoulder(String id) async {
+    var checklistCollection = _fireStore.collection('boulders');
+    await checklistCollection.doc(id).delete();
   }
 }

@@ -11,14 +11,14 @@ class UserServices {
 
   Future<String> getUsername() async {
     var preferences = await _getPreferences();
-    String username = preferences.getString('username') ?? 'no_username_set';
+    String username = preferences.getString('boulders_username') ?? 'no_username_set';
 
     return username;
   }
 
   Future<void> setUsername(String username) async {
     var preferences = await _getPreferences();
-    await preferences.setString('username', username);
+    await preferences.setString('boulders_username', username);
   }
 
   Future<bool> checkUserExists() async {

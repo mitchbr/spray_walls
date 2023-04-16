@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:spray_walls/custom_theme.dart';
 import 'package:spray_walls/pages/boulders_list.dart';
+import 'package:spray_walls/pages/create_boulder.dart';
 import 'package:spray_walls/services/boulder_services.dart';
 import 'package:spray_walls/services/user_services.dart';
 
@@ -42,7 +43,8 @@ class _BouldersStreamState extends State<BouldersStream> {
     return Scaffold(
       appBar: AppBar(title: const Text("Spray Walls")),
       body: bouldersStream(),
-      floatingActionButton: FloatingActionButton(onPressed: () => boulderServices.addBoulder()),
+      floatingActionButton:
+          FloatingActionButton(child: const Icon(Icons.add), onPressed: () => pushCreateBoulder(context)),
     );
   }
 
@@ -91,5 +93,14 @@ class _BouldersStreamState extends State<BouldersStream> {
 
   Widget errorIndicator(BuildContext context) {
     return const Center(child: Text("Error loading data"));
+  }
+
+  void pushCreateBoulder(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const CreateBoulder(),
+      ),
+    ).then((data) => setState(() => {}));
   }
 }

@@ -29,6 +29,24 @@ class Boulder {
     required this.createdAt,
   });
 
+  Boulder.create(this.name, this.holds, this.description, this.user, this.location, this.private)
+      : id = 'id',
+        stars = 0,
+        ratingsCount = 0,
+        sendCount = 0,
+        grade = -1,
+        createdAt = DateTime.now().millisecondsSinceEpoch,
+        updatedAt = DateTime.now().millisecondsSinceEpoch;
+
+  Boulder update(name, holds, description, private) {
+    this.name = name;
+    this.holds = holds;
+    this.description = description;
+    this.private = private;
+    updatedAt = DateTime.now().millisecondsSinceEpoch;
+    return this;
+  }
+
   Boulder.fromSnapshot(document)
       : id = document["id"],
         name = document["name"],
@@ -44,21 +62,29 @@ class Boulder {
         createdAt = document["createdAt"],
         updatedAt = document["updatedAt"];
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({includeId = false}) {
+    var map = {};
+
+    if (includeId) {
+      map["id"] = id;
+    }
+
     return {
-      "id": id,
-      "name": name,
-      "holds": holds,
-      "stars": stars,
-      "ratingsCount": ratingsCount,
-      "sendCount": sendCount,
-      "description": description,
-      "user": user,
-      "grade": grade,
-      "location": location,
-      "private": private,
-      "updatedAt": updatedAt,
-      "createdAt": createdAt
+      ...map,
+      ...{
+        "name": name,
+        "holds": holds,
+        "stars": stars,
+        "ratingsCount": ratingsCount,
+        "sendCount": sendCount,
+        "description": description,
+        "user": user,
+        "grade": grade,
+        "location": location,
+        "private": private,
+        "updatedAt": updatedAt,
+        "createdAt": createdAt
+      }
     };
   }
 }

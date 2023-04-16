@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:spray_walls/components/bottom_app_bar.dart';
+import 'package:spray_walls/models/boulder.dart';
+import 'package:spray_walls/pages/update_boulder.dart';
+import 'package:spray_walls/services/boulder_services.dart';
 
 class BouldersDetails extends StatefulWidget {
   final List listData;
@@ -11,6 +14,7 @@ class BouldersDetails extends StatefulWidget {
 }
 
 class _BouldersDetailsState extends State<BouldersDetails> {
+  final boulderServices = BoulderServices();
   late PageController controller;
 
   @override
@@ -36,22 +40,64 @@ class _BouldersDetailsState extends State<BouldersDetails> {
   Widget pageWidget(boulder) {
     return Scaffold(
       appBar: AppBar(
-          title: Column(
-        children: [
-          Text(
-            boulder.name,
-            style: const TextStyle(fontSize: 25),
+        title: Column(
+          children: [
+            Text(
+              boulder.name,
+              style: const TextStyle(fontSize: 25),
+            ),
+            Text(
+              "V${boulder.grade}, Set by ${boulder.user}",
+              style: const TextStyle(fontSize: 15),
+            ),
+          ],
+        ),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () => pushUpdateBoulder(context, boulder),
+            icon: const Icon(Icons.edit),
           ),
-          Text(
-            "V${boulder.grade}, Set by ${boulder.user}",
-            style: const TextStyle(fontSize: 15),
-          ),
+          IconButton(
+              onPressed: () => showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => verifyDeleteBoulder(context, boulder.id),
+                  ),
+              icon: const Icon(Icons.delete))
         ],
-      )),
+      ),
       body: const Image(
         image: AssetImage('example_wall.jpeg'),
       ),
       bottomNavigationBar: BottomBoulderAppBar(),
     );
+  }
+
+  void pushUpdateBoulder(BuildContext context, Boulder boulder) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => UpdateBoulder(boulder: boulder),
+      ),
+    ).then((data) => setState(() => {}));
+  }
+
+  Widget verifyDeleteBoulder(BuildContext context, String id) {
+    return AlertDialog(
+        title: const Text('Delete Boulder?'),
+        content: const Text('This will permanently remove the boulder'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('No'),
+          ),
+          TextButton(
+            onPressed: () {
+              boulderServices.deleteBoulder(id);
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            },
+            child: const Text('Yes'),
+          ),
+        ]);
   }
 }
