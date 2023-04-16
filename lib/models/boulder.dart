@@ -43,4 +43,22 @@ class Boulder {
         private = document["private"],
         createdAt = document["createdAt"],
         updatedAt = document["updatedAt"];
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "name": name,
+      "holds": holds,
+      "stars": stars,
+      "ratingsCount": ratingsCount,
+      "sendCount": sendCount,
+      "description": description,
+      "user": user,
+      "grade": grade,
+      "location": location,
+      "private": private,
+      "updatedAt": updatedAt,
+      "createdAt": createdAt
+    };
+  }
 }

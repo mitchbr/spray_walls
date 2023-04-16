@@ -42,6 +42,7 @@ class _BouldersStreamState extends State<BouldersStream> {
     return Scaffold(
       appBar: AppBar(title: const Text("Spray Walls")),
       body: bouldersStream(),
+      floatingActionButton: FloatingActionButton(onPressed: () => boulderServices.addBoulder()),
     );
   }
 

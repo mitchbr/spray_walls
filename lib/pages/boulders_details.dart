@@ -11,12 +11,12 @@ class BouldersDetails extends StatefulWidget {
 }
 
 class _BouldersDetailsState extends State<BouldersDetails> {
-  final controller = PageController(initialPage: 0);
+  late PageController controller;
 
   @override
   void initState() {
     setState(() {
-      controller.jumpToPage(widget.index);
+      controller = PageController(initialPage: widget.index);
     });
 
     super.initState();
@@ -24,9 +24,12 @@ class _BouldersDetailsState extends State<BouldersDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return PageView(
+    return PageView.builder(
       controller: controller,
-      children: widget.listData.map((boulder) => pageWidget(boulder)).toList(),
+      itemCount: widget.listData.length,
+      itemBuilder: (context, index) {
+        return pageWidget(widget.listData[index]);
+      },
     );
   }
 
