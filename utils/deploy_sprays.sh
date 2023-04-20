@@ -9,6 +9,8 @@ sed '17d' index.html > temp.html
 cat temp.html > index.html
 rm temp.html
 
+mv assets/assets/example_wall.png assets/
+
 git add -A
 git commit -m "Deploying web app"
 git push --force

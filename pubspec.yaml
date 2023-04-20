@@ -1,5 +1,5 @@
 name: spray_walls
-description: A new Flutter project.
+description: An app for climbers to save sets on their spray walls
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
@@ -27,4 +27,4 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/example_wall.jpeg
+    - assets/example_wall.png

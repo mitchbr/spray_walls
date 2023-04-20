@@ -5,16 +5,16 @@ import 'package:spray_walls/models/boulder.dart';
 import 'package:spray_walls/services/boulder_services.dart';
 import 'package:spray_walls/services/user_services.dart';
 
-class BoulderForm extends StatefulWidget {
-  Boulder? boulder;
+class BoulderMetaForm extends StatefulWidget {
+  final Boulder boulder;
   final String state;
-  BoulderForm({super.key, required this.state, this.boulder});
+  const BoulderMetaForm({super.key, required this.state, required this.boulder});
 
   @override
-  State<BoulderForm> createState() => _BoulderFormState();
+  State<BoulderMetaForm> createState() => _BoulderMetaFormState();
 }
 
-class _BoulderFormState extends State<BoulderForm> {
+class _BoulderMetaFormState extends State<BoulderMetaForm> {
   final theme = CustomTheme();
   final userServices = UserServices();
   final boulderServices = BoulderServices();
@@ -29,13 +29,17 @@ class _BoulderFormState extends State<BoulderForm> {
   late String name = '';
   String description = '';
   bool private = true;
+  String title = '';
 
   @override
   void initState() {
     if (widget.state == "update") {
-      _nameController.text = widget.boulder!.name;
-      _descriptionController.text = widget.boulder!.description;
-      private = widget.boulder!.private;
+      title = widget.boulder.name;
+      _nameController.text = widget.boulder.name;
+      _descriptionController.text = widget.boulder.description;
+      private = widget.boulder.private;
+    } else {
+      title = "New Boulder";
     }
 
     super.initState();
@@ -43,6 +47,13 @@ class _BoulderFormState extends State<BoulderForm> {
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(title)),
+      body: formSetup(),
+    );
+  }
+
+  Widget formSetup() {
     return Form(
         key: formKey,
         child: Padding(
@@ -159,6 +170,7 @@ class _BoulderFormState extends State<BoulderForm> {
 
               if (context.mounted) {
                 Navigator.of(context).pop();
+                Navigator.of(context).pop();
               }
             }
           }
@@ -168,20 +180,14 @@ class _BoulderFormState extends State<BoulderForm> {
 
   Future<void> createOrUpdateBoulder() async {
     if (widget.state == "create") {
-      var user = await userServices.getUsername();
-      // TODO: There's some hardcoded values here
+      widget.boulder.user = await userServices.getUsername();
+      widget.boulder.name = name;
+      widget.boulder.description = description;
+      widget.boulder.private = private;
 
-      Boulder boulder = Boulder.create(
-        name,
-        [],
-        description,
-        user,
-        'Andrews',
-        private,
-      );
-      await boulderServices.addBoulder(boulder);
+      await boulderServices.addBoulder(widget.boulder);
     } else if (widget.state == "update") {
-      Boulder boulder = widget.boulder!.update(
+      Boulder boulder = widget.boulder.update(
         name,
         [],
         description,

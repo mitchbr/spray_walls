@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:spray_walls/components/boulder_form.dart';
+import 'package:spray_walls/components/boulder_holds_form.dart';
 import 'package:spray_walls/models/boulder.dart';
 
-class UpdateBoulder extends StatefulWidget {
+class UpdateBoulder extends StatelessWidget {
   final Boulder boulder;
   const UpdateBoulder({super.key, required this.boulder});
 
   @override
-  State<UpdateBoulder> createState() => UpdateBoulderState();
-}
-
-class UpdateBoulderState extends State<UpdateBoulder> {
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Editing: ${widget.boulder.name}")),
-        body: BoulderForm(
+        appBar: AppBar(title: Text("Editing: ${boulder.name}")),
+        body: BoulderHoldsForm(
           state: "update",
-          boulder: widget.boulder,
+          boulder: boulder,
         ));
   }
 }
