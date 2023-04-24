@@ -1,16 +1,19 @@
 cd ~/Documents/repositories/spray_walls/
-flutter build web --web-renderer html --release
+flutter build web --web-renderer html --release --base-href /spray_walls/
 
-rm -R ~/Documents/repositories/spray_walls_web/*
-cp -R ~/Documents/repositories/spray_walls/build/web/* ~/Documents/repositories/spray_walls_web
+mv ./build/web ./docs
+mv ./docs/assets/assets/example_wall.png ./docs/assets/
 
-cd ~/Documents/repositories/spray_walls_web
-sed '17d' index.html > temp.html
-cat temp.html > index.html
-rm temp.html
+# rm -R ~/Documents/repositories/spray_walls_web/*
+# cp -R ~/Documents/repositories/spray_walls/build/web/* ~/Documents/repositories/spray_walls_web
 
-mv assets/assets/example_wall.png assets/
+# cd ~/Documents/repositories/spray_walls_web
+# sed '17d' index.html > temp.html
+# cat temp.html > index.html
+# rm temp.html
 
-git add -A
-git commit -m "Deploying web app"
-git push --force
+# mv assets/assets/example_wall.png assets/
+
+# git add -A
+# git commit -m "Deploying web app"
+# git push --force
