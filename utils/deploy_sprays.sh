@@ -1,5 +1,5 @@
 cd ~/Documents/repositories/spray_walls/
-flutter build web --web-renderer html --release --base-href /spray_walls/
+flutter build web --web-renderer html --release # --base-href /spray_walls/
 
 rm -r ./docs/*
 mv ./build/web/* ./docs
