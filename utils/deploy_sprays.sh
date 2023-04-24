@@ -14,20 +14,12 @@ read -p "Enter commit message: " message
 
 git add -A
 git commit -m "$message"
-git push
 
-echo Deployed application
+read -p "Successfully built and committed, deploy now? (y/n) " deployment
 
-# rm -R ~/Documents/repositories/spray_walls_web/*
-# cp -R ~/Documents/repositories/spray_walls/build/web/* ~/Documents/repositories/spray_walls_web
-
-# cd ~/Documents/repositories/spray_walls_web
-# sed '17d' index.html > temp.html
-# cat temp.html > index.html
-# rm temp.html
-
-# mv assets/assets/example_wall.png assets/
-
-# git add -A
-# git commit -m "Deploying web app"
-# git push --force
+if [[ "$deployment" == "y" ]]; then
+  git push
+  echo "Deployed application"
+else
+  echo "Aborting push to github"
+fi
